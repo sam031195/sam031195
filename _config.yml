@@ -8,6 +8,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-include-cache
 
+
 # ------------------------------------
 # 2. SITE METADATA
 # ------------------------------------
