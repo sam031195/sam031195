@@ -1,0 +1,24 @@
+.card {
+  background: var(--bg-card);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.card--rounded {
+  border-radius: 2px;
+  border: 1px solid var(--border-light);
+}
+
+.card--padded {
+  padding: var(--spacing-2xl);
+}
+
+.card--padded-lg {
+  padding: var(--spacing-4xl);
+}
+
+.card--border {
+  border: 1px solid var(--border-light);
+  border-radius: 2px;
+}
+

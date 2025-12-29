@@ -1,0 +1,242 @@
+/* GLASS HEADER */
+.header {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 1100px;
+  width: calc(100% - 48px);
+  margin: 24px auto;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 999px;
+  /* Liquid glass */
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  /* Apple-style stroke */
+  border: 1px solid var(--border-glass);
+  /* Soft elevation */
+  box-shadow: var(--shadow-lg), var(--shadow-glass-inset);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+/* LEFT */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: var(--shadow-sm);
+}
+
+.avatar-placeholder {
+  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* NAV */
+.nav {
+  display: flex;
+  gap: 28px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 500;
+  position: relative;
+  transition: color 0.2s ease;
+  font-size: 0.9375rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text-primary);
+  transform: translateX(-50%);
+  transition: width 0.3s ease, opacity 0.2s ease;
+  opacity: 0;
+}
+
+.nav a:hover {
+  color: var(--text-secondary);
+}
+
+.nav a.active {
+  color: var(--text-primary);
+}
+
+.nav a.active::after {
+  width: 100%;
+  opacity: 1;
+}
+
+/* RIGHT SECTION */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* THEME TOGGLE */
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: var(--bg-button);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-button-hover);
+  transform: scale(1.05);
+}
+
+/* CONTACT BUTTON — LIQUID PILL */
+.contact-btn {
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-button);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-md), var(--shadow-glass-inset);
+  transition: all 0.2s ease;
+  font-size: 0.9375rem;
+  font-family: inherit;
+}
+
+.contact-btn:hover {
+  background: var(--bg-button-hover);
+  transform: translateY(-1px);
+}
+
+.contact-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================== */
+/* RESPONSIVE STYLES */
+/* =========================================== */
+
+@media (max-width: 900px) {
+  .nav {
+    gap: 20px;
+  }
+  
+  .nav a {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    width: calc(100% - 24px);
+    margin: 12px auto;
+    padding: 10px 16px;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .header-left {
+    flex: 1;
+  }
+
+  .header-right {
+    gap: 8px;
+  }
+
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .name {
+    font-size: 14px;
+  }
+
+  .avatar,
+  .avatar-placeholder {
+    width: 32px;
+    height: 32px;
+  }
+
+  .contact-btn {
+    padding: 6px 16px;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .header {
+    width: calc(100% - 16px);
+    margin: 8px auto;
+    padding: 8px 12px;
+  }
+
+  .name {
+    font-size: 13px;
+  }
+
+  .avatar,
+  .avatar-placeholder {
+    width: 28px;
+    height: 28px;
+  }
+
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .theme-toggle svg {
+    width: 16px;
+    height: 16px;
+  }
+}

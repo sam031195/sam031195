@@ -1,0 +1,128 @@
+/* ===========================================
+   CENTRALIZED THEME VARIABLES
+   Change colors here to update the entire site
+   =========================================== */
+
+:root {
+  /* ========== LIGHT MODE ========== */
+  
+  /* Backgrounds */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f4f5f7;
+  --bg-card: #ffffff;
+  --bg-overlay: rgba(255, 255, 255, 0.95);
+  --bg-glass: rgba(255, 255, 255, 0.55);
+  --bg-glass-hover: rgba(255, 255, 255, 0.7);
+  --bg-button: rgba(255, 255, 255, 0.65);
+  --bg-button-hover: rgba(255, 255, 255, 0.8);
+  
+  /* Text */
+  --text-primary: #111111;
+  --text-secondary: #666666;
+  --text-muted: #888888;
+  --text-inverse: #ffffff;
+  --icon-color: #000000; /* Black for light mode */
+  
+  /* Borders */
+  --border-light: #e5e7eb;
+  --border-medium: #d1d5db;
+  --border-glass: rgba(255, 255, 255, 0.6);
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --shadow-glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  
+  /* Accents */
+  --accent-primary: #3b82f6;
+  --accent-hover: #2563eb;
+  
+  /* Gradients */
+  --gradient-page: linear-gradient(180deg, #f4f5f7, #e9ebef);
+  --gradient-cta: linear-gradient(180deg, #f5f0e6 0%, #e8dcc8 100%);
+}
+
+/* ========== DARK MODE (System Preference) ========== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Backgrounds */
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #222222;
+    --bg-tertiary: #2a2a2a;
+    --bg-card: #1a1a1a;
+    --bg-overlay: rgba(26, 26, 26, 0.98);
+    --bg-glass: rgba(26, 26, 26, 0.75);
+    --bg-glass-hover: rgba(40, 40, 40, 0.8);
+    --bg-button: rgba(255, 255, 255, 0.08);
+    --bg-button-hover: rgba(255, 255, 255, 0.12);
+    
+    /* Text */
+    --text-primary: #e5e5e5;
+    --text-secondary: #a0a0a0;
+    --text-muted: #808080;
+    --text-inverse: #1a1a1a;
+    --icon-color: #ffffff;
+    
+    /* Borders */
+    --border-light: #2a2a2a;
+    --border-medium: #3a3a3a;
+    --border-glass: rgba(255, 255, 255, 0.1);
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.3);
+    --shadow-glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    
+    /* Accents */
+    --accent-primary: #60a5fa;
+    --accent-hover: #3b82f6;
+    
+    /* Gradients */
+    --gradient-page: #1a1a1a;
+    --gradient-cta: linear-gradient(180deg, #2a2a2a 0%, #222222 100%);
+  }
+}
+
+/* ========== DARK MODE (Manual Toggle) ========== */
+html.dark {
+  /* Backgrounds */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #222222;
+  --bg-tertiary: #2a2a2a;
+  --bg-card: #1a1a1a;
+  --bg-overlay: rgba(26, 26, 26, 0.98);
+  --bg-glass: rgba(26, 26, 26, 0.75);
+  --bg-glass-hover: rgba(40, 40, 40, 0.8);
+  --bg-button: rgba(255, 255, 255, 0.08);
+  --bg-button-hover: rgba(255, 255, 255, 0.12);
+  
+  /* Text */
+  --text-primary: #e5e5e5;
+  --text-secondary: #a0a0a0;
+  --text-muted: #808080;
+  --text-inverse: #1a1a1a;
+  --icon-color: #ffffff; /* White for dark mode */
+  
+  /* Borders */
+  --border-light: #2a2a2a;
+  --border-medium: #3a3a3a;
+  --border-glass: rgba(255, 255, 255, 0.1);
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.3);
+  --shadow-glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  
+  /* Accents */
+  --accent-primary: #60a5fa;
+  --accent-hover: #3b82f6;
+  
+  /* Gradients */
+  --gradient-page: #1a1a1a;
+  --gradient-cta: linear-gradient(180deg, #2a2a2a 0%, #222222 100%);
+}
+

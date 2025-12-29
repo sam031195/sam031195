@@ -1,0 +1,338 @@
+/* ===========================================
+   LIFESTYLE PAGE
+   =========================================== */
+
+.lifestyle {
+  padding: var(--spacing-4xl) var(--spacing-xl);
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--bg-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.lifestyle-container {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Design Philosophy Section */
+.design-philosophy {
+  margin-bottom: var(--spacing-4xl);
+}
+
+.philosophy-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: var(--spacing-lg);
+}
+
+.philosophy-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-3xl);
+  align-items: center;
+}
+
+.philosophy-image-img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.philosophy-image-placeholder {
+  width: 100%;
+  height: 300px;
+  background: linear-gradient(135deg, #e8e4df 0%, #d4cfc8 100%);
+  border-radius: 8px;
+  position: relative;
+}
+
+.philosophy-image-placeholder::before {
+  content: '';
+  position: absolute;
+  bottom: 10%;
+  left: 20%;
+  width: 60%;
+  height: 70%;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+}
+
+.philosophy-image-placeholder::after {
+  content: '';
+  position: absolute;
+  bottom: 15%;
+  right: 15%;
+  width: 30%;
+  height: 50%;
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+
+.philosophy-text {
+  padding: var(--spacing-lg) 0;
+}
+
+.philosophy-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  margin-bottom: var(--spacing-lg);
+}
+
+.philosophy-title .italic {
+  font-size: var(--font-size-2xl);
+  font-style: italic;
+  font-weight: var(--font-weight-normal);
+  color: var(--text-primary);
+}
+
+.philosophy-title .bold {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+}
+
+.philosophy-description {
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+/* Beyond Screen Section */
+.beyond-screen {
+  margin-bottom: var(--spacing-3xl);
+}
+
+.beyond-screen-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: var(--spacing-2xl);
+}
+
+.beyond-screen-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.beyond-screen-description {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-xl);
+}
+
+.beyond-screen-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  align-items: stretch;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
+}
+
+.beyond-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  display: flex;
+}
+
+.beyond-item:has(.beyond-image.city) {
+  grid-column: 2;
+  grid-row: 1 / -1;
+}
+
+.beyond-image {
+  width: 100%;
+  height: 180px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--spacing-md);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.beyond-image-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.beyond-image.reading {
+  background: linear-gradient(135deg, #e8f4ea 0%, #d4e8d8 100%);
+}
+
+.beyond-image.reading::before {
+  display: none;
+}
+
+.beyond-image.city {
+  background: linear-gradient(180deg, #f5a583 0%, #7a6b8a 50%, #3a3a5a 100%);
+  height: 100%;
+  flex: 1;
+}
+
+.beyond-image.football {
+  background: linear-gradient(135deg, #87ceeb 0%, #98d8e8 100%);
+}
+
+.beyond-image.football::before {
+  display: none;
+}
+
+.beyond-image.city-extended {
+  display: none;
+}
+
+.beyond-label {
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  font-size: var(--font-size-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.view-all-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  padding: var(--spacing-sm) var(--spacing-xl);
+  border-radius: 4px;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.view-all-btn:hover {
+  background: var(--bg-secondary);
+  border-color: var(--text-primary);
+}
+
+/* Info Cards */
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-4xl);
+}
+
+.info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: var(--spacing-2xl);
+}
+
+.info-card-icon {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-secondary);
+}
+
+.info-card-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.info-card-description {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.info-card-btn {
+  background: transparent;
+  border: 1px solid var(--border-light);
+  padding: var(--spacing-xs) var(--spacing-lg);
+  border-radius: 4px;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.info-card-btn:hover {
+  background: var(--bg-secondary);
+  border-color: var(--text-primary);
+}
+
+/* Import CTA component styles */
+@import './ui/CTASection.css';
+
+/* ===========================================
+   RESPONSIVE
+   =========================================== */
+@media (max-width: 768px) {
+  .lifestyle {
+    padding: var(--spacing-2xl) var(--spacing-lg);
+  }
+
+  .philosophy-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  .philosophy-title {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .philosophy-description {
+    text-align: left;
+  }
+
+  .philosophy-image-placeholder {
+    height: 220px;
+  }
+
+  .beyond-screen-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .beyond-image {
+    height: 200px;
+  }
+
+  .beyond-image.city {
+    grid-row: auto;
+    height: 200px;
+  }
+
+  .info-cards {
+    grid-template-columns: 1fr;
+  }
+
+}
