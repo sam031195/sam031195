@@ -3,6 +3,6 @@ import react from "@vitejs/plugin-react"
 
 export default defineConfig({
   plugins: [react()],
-  base: "/portfolio/", // Matches repository name - change to "/" if using custom domain
+  base: "/", // Using custom domain www.surbhimeena.com
 })
 
