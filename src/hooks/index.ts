@@ -1,0 +1,2 @@
+export { useEmbeddedModal } from './useEmbeddedModal';
+

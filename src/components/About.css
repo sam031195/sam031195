@@ -50,7 +50,7 @@
    =========================================== */
 
 .about {
-  padding: var(--spacing-4xl) var(--spacing-xl);
+  padding: var(--spacing-4xl) var(--spacing-xl) var(--spacing-2xl);
   max-width: 1200px;
   margin: 0 auto;
   background: var(--bg-primary);

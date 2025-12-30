@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Employee Wellness Dashboard</title>
+<style>
+    :root{
+      --bg:#f5f6fb;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --text:#111827;
+      --line:#e9eaf2;
+      --shadow: 0 8px 20px rgba(17,24,39,0.08);
+      --radius:14px;
+      --primary:#6d28d9;
+      --primary2:#7c3aed;
+      --accent:#a78bfa;
+      --warn:#f59e0b;
+      --good:#22c55e;
+      --bad:#ef4444;
+      --chip:#f1f5ff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:var(--bg);
+      color:var(--text);
+    }
+    .app{
+      display:grid;
+      grid-template-columns: 66px 1fr;
+      min-height:100vh;
+    }
+    .sidebar{
+      background: linear-gradient(180deg, #4c1d95 0%, #6d28d9 60%, #4c1d95 100%);
+      color:#fff;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:10px 8px;
+      gap:10px;
+    }
+    .brand{
+      width:48px;
+      height:48px;
+      border-radius:14px;
+      background: rgba(255,255,255,0.14);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+
+    .brandIcon{
+      width:28px;
+      height:28px;
+      border-radius:999px;
+      background:#fbbf24;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 10px 18px rgba(0,0,0,0.10);
+    }
+
+    .brandIcon svg{
+      width:16px;
+      height:16px;
+      color:#fff;
+    }
+    .nav{
+      width:100%;
+      margin-top:6px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .navbtn{
+      width:100%;
+      height:44px;
+      border-radius:12px;
+      border:0;
+      background:transparent;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      opacity:0.92;
+      transition: background 120ms ease, opacity 120ms ease;
+    }
+
+    .navbtn svg{
+      width:20px;
+      height:20px;
+      color:#fff;
+    }
+    .navbtn:hover{background: rgba(255,255,255,0.12); opacity:1;}
+    .navbtn.active{background: rgba(255,255,255,0.18); opacity:1;}
+
+    .navbtn svg{
+      width:20px;
+      height:20px;
+      color:#fff;
+    }
+    .navspacer{flex:1}
+    .content{
+      padding:18px 18px 80px 18px;
+      max-width:1240px;
+      width:100%;
+      margin:0 auto;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:8px 6px 14px 6px;
+    }
+    .title{
+      font-weight:700;
+      color:#4b5563;
+      font-size:16px;
+    }
+    .topbar-right{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .btn{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:10px;
+      padding:8px 10px;
+      font-size:12px;
+      font-weight:600;
+      color:#374151;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+    }
+    .btn:hover{background:#fafafa;}
+    .user{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:#374151;
+      font-size:12px;
+      font-weight:600;
+    }
+    .avatar{
+      width:26px;
+      height:26px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: var(--primary);
+      color:#fff;
+      font-size:12px;
+      font-weight:800;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 260px 1fr 320px;
+      gap:14px;
+      align-items:start;
+    }
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      border:1px solid rgba(233,234,242,0.9);
+      overflow:hidden;
+    }
+    .card h3{
+      margin:0;
+      font-size:12px;
+      font-weight:800;
+      color:#374151;
+    }
+    .card .hd{
+      padding:14px 14px 8px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .card .bd{
+      padding:10px 14px 14px 14px;
+    }
+    .muted{color:var(--muted);}
+    .filters label{
+      display:block;
+      font-size:11px;
+      font-weight:700;
+      color:#6b7280;
+      margin:10px 0 6px 0;
+    }
+    .filters select, .filters input{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:9px 10px;
+      font-size:12px;
+      background:#fff;
+      color:#111827;
+      outline:none;
+    }
+    .filters .apply{
+      margin-top:14px;
+      width:100%;
+      border:0;
+      border-radius:10px;
+      padding:10px 12px;
+      background: var(--primary);
+      color:#fff;
+      font-weight:800;
+      font-size:12px;
+      cursor:pointer;
+      box-shadow: 0 10px 18px rgba(109,40,217,0.20);
+    }
+    .filters .apply:hover{background: var(--primary2);}
+    .tiny{
+      font-size:10px;
+      color:#6b7280;
+      line-height:1.35;
+    }
+    .ews-wrap{
+      display:grid;
+      grid-template-columns: 220px 1fr;
+      gap:12px;
+      align-items:center;
+    }
+    .orgavg{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:11px;
+      font-weight:800;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:#6b7280;
+    }
+    .tiles{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      align-items:stretch;
+    }
+    .tile{
+      background: #fbfbff;
+      border:1px solid rgba(233,234,242,0.9);
+      border-radius:12px;
+      padding:10px 10px;
+    }
+    .tile .name{
+      font-size:11px;
+      font-weight:800;
+      color:#6b7280;
+      margin-bottom:6px;
+    }
+    .tile .val{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .tile .num{
+      font-size:16px;
+      font-weight:900;
+      color:#111827;
+    }
+    .delta{
+      font-size:11px;
+      font-weight:900;
+      padding:3px 7px;
+      border-radius:999px;
+      background: var(--chip);
+      color:#4b5563;
+      border:1px solid rgba(233,234,242,0.9);
+      white-space:nowrap;
+    }
+    .delta.good{color: #15803d; background: rgba(34,197,94,0.12); border-color: rgba(34,197,94,0.18);}
+    .delta.bad{color: #b91c1c; background: rgba(239,68,68,0.10); border-color: rgba(239,68,68,0.16);}
+
+    .bars{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:6px;
+    }
+    .baritem .label{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-size:11px;
+      font-weight:800;
+      color:#374151;
+      margin-bottom:6px;
+    }
+    .bartrack{
+      width:100%;
+      height:10px;
+      border-radius:999px;
+      background:#eef0f8;
+      overflow:hidden;
+      border:1px solid rgba(233,234,242,0.9);
+      display:flex;
+    }
+    .barA{
+      height:100%;
+      background: var(--primary);
+    }
+    .barB{
+      height:100%;
+      background: var(--warn);
+      opacity:0.9;
+    }
+    .legend{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:10px;
+      color:#6b7280;
+      margin-top:10px;
+      justify-content:flex-end;
+    }
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:4px;
+      display:inline-block;
+      margin-right:6px;
+    }
+    .heatwrap{
+      padding-top:6px;
+    }
+    table.heat{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:8px 10px;
+      table-layout:fixed;
+    }
+    table.heat th{
+      font-size:10px;
+      color:#6b7280;
+      text-align:left;
+      font-weight:900;
+      padding:0;
+    }
+    table.heat td{
+      border-radius:10px;
+      height:28px;
+      border:1px solid rgba(233,234,242,0.9);
+      position:relative;
+      overflow:hidden;
+    }
+    .celltext{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:10px;
+      font-weight:900;
+      color:#111827;
+      mix-blend-mode:multiply;
+    }
+    .insights{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:6px;
+    }
+    .insight{
+      border-radius:12px;
+      border:1px solid rgba(233,234,242,0.9);
+      padding:10px 10px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      background:#fff;
+    }
+    .ic{
+      width:26px;
+      height:26px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      color:#111827;
+      border:1px solid rgba(233,234,242,0.9);
+      background:#fbfbff;
+      flex:0 0 auto;
+    }
+    .ic.red{background: rgba(239,68,68,0.10); border-color: rgba(239,68,68,0.16);}
+    .ic.green{background: rgba(34,197,94,0.12); border-color: rgba(34,197,94,0.18);}
+    .ic.purple{background: rgba(109,40,217,0.10); border-color: rgba(109,40,217,0.16);}
+    .ic.amber{background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.18);}
+    .insight h4{
+      margin:0 0 4px 0;
+      font-size:11px;
+      font-weight:900;
+      color:#111827;
+    }
+    .insight p{
+      margin:0;
+      font-size:10px;
+      color:#6b7280;
+      line-height:1.35;
+    }
+    .genbtn{
+      margin-top:10px;
+      width:100%;
+      border:1px solid rgba(233,234,242,0.9);
+      border-radius:10px;
+      padding:10px 10px;
+      background:#fff;
+      font-weight:900;
+      font-size:12px;
+      color:#4b5563;
+      cursor:pointer;
+    }
+    .genbtn:hover{background:#fafafa;}
+
+    .fab{
+      position:fixed;
+      right:22px;
+      bottom:22px;
+      width:44px;
+      height:44px;
+      border-radius:999px;
+      background: var(--primary);
+      border:0;
+      box-shadow: 0 14px 26px rgba(109,40,217,0.30);
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:900;
+    }
+    .badge{
+      font-size:10px;
+      font-weight:900;
+      color:#6b7280;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(233,234,242,0.9);
+      background:#fff;
+      white-space:nowrap;
+    }
+
+    .overlay{
+      position:fixed;
+      inset:0;
+      background: rgba(17,24,39,0.52);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:99;
+    }
+    .modal{
+      width:min(520px, 96vw);
+      background:#fff;
+      border-radius:16px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.25);
+      border:1px solid rgba(233,234,242,0.9);
+      overflow:hidden;
+    }
+    .modal .mhd{
+      padding:14px 14px 10px 14px;
+      border-bottom:1px solid rgba(233,234,242,0.9);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .modal .mhd h3{
+      margin:0;
+      font-size:13px;
+      font-weight:900;
+      color:#111827;
+    }
+    .modal .mbd{
+      padding:12px 14px 14px 14px;
+    }
+    .progress{
+      height:10px;
+      border-radius:999px;
+      background:#eef0f8;
+      border:1px solid rgba(233,234,242,0.9);
+      overflow:hidden;
+      margin-top:10px;
+    }
+    .progress > div{
+      height:100%;
+      width:0%;
+      background: var(--primary);
+      transition: width 120ms ease;
+    }
+    .filebtn{
+      margin-top:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 10px;
+      border:1px dashed rgba(109,40,217,0.55);
+      border-radius:12px;
+      background: rgba(109,40,217,0.06);
+      cursor:pointer;
+      font-weight:900;
+      color:#4b5563;
+      font-size:12px;
+    }
+    .filebtn:hover{background: rgba(109,40,217,0.08);}
+    .linklike{
+      color: var(--primary);
+      font-weight:900;
+      text-decoration:none;
+    }
+    .smallnote{
+      font-size:10px;
+      color:#6b7280;
+      line-height:1.35;
+      margin-top:10px;
+    }
+    @media (max-width: 1100px){
+      .grid{grid-template-columns: 1fr;}
+      .sidebar{display:none;}
+      .content{padding:16px 14px 80px 14px;}
+    }
+  
+    /* Sidebar navigation enhancements */
+    .navShort{display:none; width:100%; text-align:center; font-weight:900; font-size:14px; letter-spacing:0.6px; color:#fff;}
+    .brandShort{display:none; width:100%; text-align:center; font-weight:900; font-size:14px; letter-spacing:0.6px; color:#fff;}
+    body.sidebar-initials .navbtn svg{display:none;}
+    body.sidebar-initials .navShort{display:block;}
+    body.sidebar-initials .brandIcon{display:none;}
+    body.sidebar-initials .brandShort{display:block;}
+
+    /* Settings overlay controls */
+    .iconbtn{border:0; background:transparent; color:#6b7280; font-weight:800; cursor:pointer; padding:6px 10px; border-radius:10px;}
+    .iconbtn:hover{background: rgba(17,24,39,0.06);}
+    .seg{display:flex; gap:10px; margin-top:8px;}
+    .segbtn{flex:1; border:1px solid var(--line); background:#fff; padding:9px 10px; border-radius:12px; cursor:pointer; font-weight:800; color:#374151;}
+    .segbtn.active{background: rgba(109,40,217,0.10); border-color: rgba(109,40,217,0.40); color:#4c1d95;}
+    .btnPrimary{margin-top:12px; width:100%; border:0; border-radius:10px; padding:10px 12px; background: var(--primary); color:#fff; font-weight:900; font-size:12px; cursor:pointer;}
+    .btnPrimary:hover{filter:brightness(0.98);}
+    #settingsOverlay .modal{max-width:520px;}
+    .clickable{cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div aria-label="Wellness Hub" class="brand" title="Wellness Hub">
+<div aria-hidden="true" class="brandIcon">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M12 2v2"></path>
+<path d="M12 20v2"></path>
+<path d="M4.93 4.93l1.41 1.41"></path>
+<path d="M17.66 17.66l1.41 1.41"></path>
+<path d="M2 12h2"></path>
+<path d="M20 12h2"></path>
+<path d="M4.93 19.07l1.41-1.41"></path>
+<path d="M17.66 6.34l1.41-1.41"></path>
+<circle cx="12" cy="12" r="4"></circle>
+</svg>
+</div>
+<div class="brandShort">WH</div></div>
+<div class="nav">
+<button aria-label="Dashboard" class="navbtn active" data-action="scroll" data-target="sec-ews" title="Dashboard" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M3 10.5L12 3l9 7.5"></path>
+<path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"></path>
+</svg>
+<span class="navShort">D</span></button>
+<button aria-label="Filters" class="navbtn" data-action="scroll" data-target="sec-filters" title="Filters" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M4 21v-7"></path>
+<path d="M4 10V3"></path>
+<path d="M12 21v-9"></path>
+<path d="M12 8V3"></path>
+<path d="M20 21v-5"></path>
+<path d="M20 12V3"></path>
+<path d="M2 14h4"></path>
+<path d="M10 8h4"></path>
+<path d="M18 16h4"></path>
+</svg>
+<span class="navShort">F</span></button>
+<button aria-label="Teams" class="navbtn" data-action="scroll" data-target="sec-teams" title="Teams" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path>
+<circle cx="9" cy="7" r="4"></circle>
+<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+</svg>
+<span class="navShort">T</span></button>
+<button aria-label="Reports" class="navbtn" data-action="export" title="Reports" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M3 3v18h18"></path>
+<path d="M7 14v4"></path>
+<path d="M11 10v8"></path>
+<path d="M15 6v12"></path>
+<path d="M19 8v10"></path>
+</svg>
+<span class="navShort">R</span></button>
+<button aria-label="Benefits" class="navbtn" data-action="scroll" data-target="sec-benefits" title="Benefits" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M20 12v10H4V12"></path>
+<path d="M2 7h20v5H2z"></path>
+<path d="M12 22V7"></path>
+<path d="M12 7c-2.5 0-4-1.5-4-3s1.5-3 4-1c2.5-2 4-1 4 1s-1.5 3-4 3z"></path>
+</svg>
+<span class="navShort">B</span></button>
+<button aria-label="Alerts" class="navbtn" data-action="scroll" data-target="sec-alerts" title="Alerts" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+<path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+</svg>
+<span class="navShort">A</span></button>
+</div>
+<div class="navspacer"></div>
+<button aria-label="Settings" class="navbtn" data-action="settings" title="Settings" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="3"></circle>
+<path d="M19.4 15a7.7 7.7 0 0 0 .05-1l2.05-1.6-2-3.46-2.52.78a7.3 7.3 0 0 0-1.72-1l-.38-2.6h-4l-.38 2.6a7.3 7.3 0 0 0-1.72 1L4.5 8.94l-2 3.46L4.55 14a7.7 7.7 0 0 0 .05 1 7.7 7.7 0 0 0-.05 1L2.5 17.6l2 3.46 2.52-.78a7.3 7.3 0 0 0 1.72 1l.38 2.6h4l.38-2.6a7.3 7.3 0 0 0 1.72-1l2.52.78 2-3.46L19.45 16a7.7 7.7 0 0 0-.05-1z"></path>
+</svg>
+<span class="navShort">S</span></button>
+</aside>
+<main class="content">
+<div class="topbar">
+<div class="title">Employee Wellness Dashboard</div>
+<div class="topbar-right">
+<button class="btn" id="exportBtn" title="Export Report">
+<span style="font-weight:900;">Export Report</span>
+</button>
+<div class="user">
+<span class="clickable" id="userName">Demo User</span>
+<span class="avatar">DU</span>
+</div>
+</div>
+</div>
+<div class="grid">
+<section class="card filters" id="sec-filters">
+<div class="hd">
+<h3>Filters</h3>
+<span class="badge" id="rowCount">0 rows</span>
+</div>
+<div class="bd">
+<label for="employee">Employee Name</label>
+<select id="employee">
+<option value="__all__">All Employees</option>
+</select>
+<label for="team">Team</label>
+<select id="team">
+<option value="__all__">All Teams</option>
+<option value="Q1">Q1</option>
+<option value="Q2">Q2</option>
+<option value="Q3">Q3</option>
+<option value="Q4">Q4</option>
+<option value="Q5">Q5</option>
+</select>
+<label for="region">Region</label>
+<select id="region">
+<option value="__all__">All Sources</option>
+<option value="GSS_QWL">GSS QWL</option>
+<option value="FWLS_2017">FWLS 2017</option>
+</select>
+<div class="tiny" style="margin-top:6px;">Note: the "Region" filter is used as a data source selector in this public benchmark demo.</div>
+<label for="period">Time Period</label>
+<select id="period">
+<option value="__all__">All available</option>
+<option value="__latest__">Latest only</option>
+</select>
+<button class="apply" id="applyBtn">Apply Filters</button>
+<div class="smallnote">
+            Data: fact_wellbeing_union.csv (GSS QWL and FWLS 2017) with WellBQ aligned EWS and domain scores.
+          </div>
+</div>
+</section>
+<section style="display:flex; flex-direction:column; gap:14px;">
+<section class="card" id="sec-ews">
+<div class="hd">
+<h3>Employee Wellness Score (EWS)</h3>
+<span class="orgavg">Organization Average</span>
+</div>
+<div class="bd">
+<div class="ews-wrap">
+<div>
+<div id="gauge" style="width:100%; height:180px;"></div>
+</div>
+<div class="tiles" id="domainTiles"></div>
+</div>
+</div>
+</section>
+<section class="card" id="sec-teams">
+<div class="hd">
+<h3>Team Wellness Trends</h3>
+<span class="badge" id="trendMode">Year</span>
+</div>
+<div class="bd">
+<div id="trendChart" style="width:100%; height:210px;"></div>
+</div>
+</section>
+<section class="card" id="sec-benefits">
+<div class="hd">
+<h3>Wellness Benefits Usage</h3>
+</div>
+<div class="bd">
+<div class="heatwrap" id="heatmapWrap"></div>
+<div class="legend">
+<span><span class="dot" style="background:rgba(109,40,217,0.25)"></span>Low</span>
+<span><span class="dot" style="background:rgba(109,40,217,0.55)"></span>Medium</span>
+<span><span class="dot" style="background:rgba(109,40,217,0.85)"></span>High</span>
+</div>
+</div>
+</section>
+</section>
+<section style="display:flex; flex-direction:column; gap:14px;">
+<section class="card" id="sec-participation">
+<div class="hd">
+<h3>Participation &amp; Satisfaction</h3>
+<span class="badge" id="targetBadge">Target 70</span>
+</div>
+<div class="bd">
+<div class="bars" id="barsWrap"></div>
+<div class="legend">
+<span><span class="dot" style="background:var(--primary)"></span>Satisfaction</span>
+<span><span class="dot" style="background:var(--warn)"></span>Participation</span>
+</div>
+</div>
+</section>
+<section class="card" id="sec-alerts">
+<div class="hd">
+<h3>AI Insights</h3>
+<a class="linklike" href="#" id="viewAll" style="font-size:11px;">View All</a>
+</div>
+<div class="bd">
+<div class="insights" id="insightsWrap"></div>
+<button class="genbtn" id="moreBtn">Generate More Insights</button>
+</div>
+</section>
+</section>
+</div>
+<button class="fab" title="Assistant">+</button>
+</main>
+</div>
+<div class="overlay" id="overlay">
+<div class="modal">
+<div class="mhd">
+<h3 id="modalTitle">Loading data</h3>
+<span class="badge" id="modalStatus">Starting</span>
+</div>
+<div class="mbd">
+<div class="tiny" id="modalText">Attempting to load fact_wellbeing_union.csv from the same folder as this HTML file.</div>
+<div class="progress"><div id="progressBar"></div></div>
+<button class="filebtn" id="loadDataBtn" type="button">
+<span>Load Dashboard Data</span>
+<span class="badge">Click to Load</span>
+</button>
+<label class="filebtn" for="fileInput" id="fileBtn" style="display:none;">
+<span>Select fact_wellbeing_union.csv</span>
+<span class="badge">Browse</span>
+</label>
+<input accept=".csv" id="fileInput" style="display:none" type="file"/>
+<div class="smallnote">
+        If the automatic load fails, choose the CSV file manually. This works even when you open index.html by double click.
+      </div>
+<div class="smallnote">
+        Tip: for best performance, use a local web server. Example: python3 -m http.server 8000
+      </div>
+</div>
+</div>
+</div><div class="overlay" id="settingsOverlay" style="display:none;"><div class="modal"><div class="mhd"><h3>Settings</h3><button class="iconbtn" id="closeSettings" title="Close" type="button">Close</button></div><div class="mbd"><label for="settingsName">Display name</label><input id="settingsName" placeholder="Your name" type="text"/><div class="smallnote">This only changes the label in this demo dashboard.</div><div style="height:10px;"></div><label>Sidebar style</label><div class="seg"><button class="segbtn" id="styleIcons" type="button">Icons</button><button class="segbtn" id="styleInitials" type="button">Initials</button></div><div class="smallnote">Saved in this browser only.</div><button class="btnPrimary" id="saveSettings" type="button">Save</button></div></div></div>
+<script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script>
+  const DOMAIN_KEYS = [
+    {key:"D1_WorkEvalExperience", label:"Work"},
+    {key:"D2_PoliciesCulture", label:"Culture"},
+    {key:"D3_SafetyClimate", label:"Safety"},
+    {key:"D4_HealthStatus", label:"Health"},
+    {key:"D5_HomeCommunity", label:"Home"}
+  ];
+
+  const DOMAIN_FULL = {
+    "D1_WorkEvalExperience":"Work Experience",
+    "D2_PoliciesCulture":"Policies & Culture",
+    "D3_SafetyClimate":"Safety Climate",
+    "D4_HealthStatus":"Health Status",
+    "D5_HomeCommunity":"Home & Community"
+  };
+
+  const COLOR = {
+    primary:"#6d28d9",
+    warn:"#f59e0b",
+    text:"#111827",
+    muted:"#6b7280",
+    grid:"#e9eaf2",
+    bg:"rgba(0,0,0,0)"
+  };
+
+  let RAW = [];
+  let BASELINE = {};
+  let INSIGHT_ROT = 0;
+  let EVENTS_BOUND = false;
+
+  const overlay = document.getElementById("overlay");
+  const progressBar = document.getElementById("progressBar");
+  const modalStatus = document.getElementById("modalStatus");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalText = document.getElementById("modalText");
+  const fileInput = document.getElementById("fileInput");
+
+  function showOverlay(title, status, text){
+    modalTitle.textContent = title;
+    modalStatus.textContent = status;
+    modalText.textContent = text;
+    overlay.style.display = "flex";
+  }
+  function hideOverlay(){ overlay.style.display = "none"; }
+
+  function setProgress(pct){
+    progressBar.style.width = Math.max(0, Math.min(100, pct)) + "%";
+  }
+
+  function toNum(v){
+    if(v === null || v === undefined) return NaN;
+    if(v === "") return NaN;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : NaN;
+  }
+
+  function weightedMean(rows, key){
+    let sw = 0;
+    let sx = 0;
+    for(const r of rows){
+      const x = r[key];
+      const w = r.Weight;
+      if(Number.isFinite(x) && Number.isFinite(w) && w > 0){
+        sw += w;
+        sx += w * x;
+      }
+    }
+    if(sw === 0) return NaN;
+    return sx / sw;
+  }
+
+  function weightedShare(rows, predicate){
+    let sw = 0;
+    let sy = 0;
+    for(const r of rows){
+      const w = r.Weight;
+      if(Number.isFinite(w) && w > 0){
+        sw += w;
+        if(predicate(r)) sy += w;
+      }
+    }
+    if(sw === 0) return NaN;
+    return sy / sw;
+  }
+
+  function safeRound(x, digits=0){
+    if(!Number.isFinite(x)) return "NA";
+    const p = Math.pow(10, digits);
+    return (Math.round(x * p) / p).toFixed(digits);
+  }
+
+  function pctFmt(x){
+    if(!Number.isFinite(x)) return "NA";
+    return (100 * x).toFixed(0) + "%";
+  }
+
+  function colorForScore(x){
+    if(!Number.isFinite(x)) return "rgba(233,234,242,0.55)";
+    const t = Math.max(0, Math.min(1, x/100));
+    const a = 0.18 + 0.70 * t;
+    return `rgba(109,40,217,${a.toFixed(3)})`;
+  }
+
+  function ensureYearOptions(){
+    const period = document.getElementById("period");
+    const existing = new Set([...period.options].map(o=>o.value));
+    const years = [...new Set(RAW.map(r=>r.SurveyYear).filter(y=>Number.isFinite(y)))].sort((a,b)=>a-b);
+    for(const y of years){
+      const val = String(y);
+      if(!existing.has(val)){
+        const opt = document.createElement("option");
+        opt.value = val;
+        opt.textContent = val;
+        period.appendChild(opt);
+      }
+    }
+  }
+
+  function ensureEmployeeOptions(sourceVal){
+    const employee = document.getElementById("employee");
+    const keep = new Set(["__all__"]);
+    const opts = [...employee.options];
+    for(const opt of opts){
+      if(!keep.has(opt.value)) employee.removeChild(opt);
+    }
+    const rows = sourceVal === "__all__" ? RAW : RAW.filter(r=>r.Source === sourceVal);
+    const ids = [...new Set(rows.map(r=>r.RespondentID))].filter(x=>x !== null && x !== undefined);
+    ids.sort((a,b)=> (a>b?1:-1));
+    const sample = ids.slice(0, 500);
+    for(const id of sample){
+      const opt = document.createElement("option");
+      opt.value = String(id);
+      opt.textContent = String(id);
+      employee.appendChild(opt);
+    }
+  }
+
+  function getFwaKey(){
+    const src = document.getElementById("region").value;
+    return (src === "__all__") ? "FWA_Q_ALL" : "FWA_Q_SRC";
+  }
+
+  function getFilters(){
+    return {
+      employee: document.getElementById("employee").value,
+      team: document.getElementById("team").value,
+      source: document.getElementById("region").value,
+      period: document.getElementById("period").value
+    };
+  }
+
+  function applyFilters(){
+    const f = getFilters();
+    let rows = RAW;
+
+    if(f.source !== "__all__"){
+      rows = rows.filter(r=>r.Source === f.source);
+    }
+
+    if(f.period === "__latest__"){
+      const ys = rows.map(r=>r.SurveyYear).filter(y=>Number.isFinite(y));
+      const maxYear = ys.length ? Math.max(...ys) : NaN;
+      if(Number.isFinite(maxYear)) rows = rows.filter(r=>r.SurveyYear === maxYear);
+    }else if(f.period !== "__all__"){
+      const y = Number(f.period);
+      if(Number.isFinite(y)) rows = rows.filter(r=>r.SurveyYear === y);
+    }
+
+    if(f.employee !== "__all__"){
+      const id = f.employee;
+      rows = rows.filter(r=>String(r.RespondentID) === String(id));
+    }
+
+    if(f.team !== "__all__"){
+      const k = getFwaKey();
+      rows = rows.filter(r=>r[k] === f.team);
+    }
+
+    return rows;
+  }
+
+  function updateRowCount(rows){
+    document.getElementById("rowCount").textContent = rows.length.toLocaleString() + " rows";
+  }
+
+  function drawGauge(value){
+    const v = Number.isFinite(value) ? value : 0;
+    const data = [{
+      type: "indicator",
+      mode: "gauge+number",
+      value: v,
+      number: {suffix:"", font:{size:28, color:COLOR.text}},
+      gauge: {
+        axis: {range:[0,100], tickwidth:0, tickcolor:COLOR.muted, tickfont:{size:10, color:COLOR.muted}},
+        bar: {color: COLOR.primary, thickness:0.26},
+        bgcolor: "rgba(0,0,0,0)",
+        borderwidth: 0,
+        steps: [
+          {range:[0,100], color:"rgba(233,234,242,1)"}
+        ]
+      },
+      domain: {x:[0,1], y:[0,1]}
+    }];
+
+    const layout = {
+      margin:{l:10,r:10,t:18,b:10},
+      paper_bgcolor: COLOR.bg,
+      plot_bgcolor: COLOR.bg,
+      height:180
+    };
+    const config = {displayModeBar:false, responsive:true};
+    Plotly.react("gauge", data, layout, config);
+  }
+
+  function updateDomainTiles(rows, baselineKey){
+    const wrap = document.getElementById("domainTiles");
+    wrap.innerHTML = "";
+    const base = BASELINE[baselineKey] || BASELINE["__all__"];
+    for(const d of DOMAIN_KEYS){
+      const mean = weightedMean(rows, d.key);
+      const baseMean = base.domains[d.key];
+      let delta = NaN;
+      if(Number.isFinite(mean) && Number.isFinite(baseMean) && baseMean !== 0){
+        delta = (mean - baseMean) / baseMean;
+      }
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      const name = document.createElement("div");
+      name.className = "name";
+      name.textContent = d.label;
+      const val = document.createElement("div");
+      val.className = "val";
+      const num = document.createElement("div");
+      num.className = "num";
+      num.textContent = safeRound(mean,0);
+      const del = document.createElement("div");
+      del.className = "delta";
+      if(Number.isFinite(delta)){
+        const pct = (100*delta);
+        const sign = pct >= 0 ? "+" : "";
+        del.textContent = sign + pct.toFixed(0) + "%";
+        del.classList.add(pct >= 0 ? "good" : "bad");
+      }else{
+        del.textContent = "NA";
+      }
+      val.appendChild(num);
+      val.appendChild(del);
+      tile.appendChild(name);
+      tile.appendChild(val);
+      wrap.appendChild(tile);
+    }
+  }
+
+  function updateBars(rows){
+    const wrap = document.getElementById("barsWrap");
+    wrap.innerHTML = "";
+    for(const d of DOMAIN_KEYS){
+      const sat = weightedMean(rows, d.key);
+      const part = weightedShare(rows, r=>Number.isFinite(r[d.key]) && r[d.key] >= 70);
+      const item = document.createElement("div");
+      item.className = "baritem";
+      const lab = document.createElement("div");
+      lab.className = "label";
+      const left = document.createElement("span");
+      left.textContent = DOMAIN_FULL[d.key];
+      const right = document.createElement("span");
+      right.className = "muted";
+      right.textContent = safeRound(sat,0);
+      lab.appendChild(left);
+      lab.appendChild(right);
+
+      const track = document.createElement("div");
+      track.className = "bartrack";
+      const a = document.createElement("div");
+      a.className = "barA";
+      const b = document.createElement("div");
+      b.className = "barB";
+      const wA = Number.isFinite(sat) ? Math.max(0, Math.min(100, sat)) : 0;
+      const wB = Number.isFinite(part) ? Math.max(0, Math.min(100, 100*part)) : 0;
+      a.style.width = wA + "%";
+      b.style.width = wB + "%";
+      track.appendChild(a);
+      track.appendChild(b);
+
+      item.appendChild(lab);
+      item.appendChild(track);
+      wrap.appendChild(item);
+    }
+  }
+
+  function ageBucketGSS(age){
+    if(!Number.isFinite(age)) return "Unknown";
+    if(age < 30) return "18-29";
+    if(age < 40) return "30-39";
+    if(age < 50) return "40-49";
+    if(age < 60) return "50-59";
+    return "60+";
+  }
+
+  function ageGroupFWLS(code){
+    const c = Number(code);
+    if(!Number.isFinite(c)) return "Unknown";
+    const map = {
+      1:"<30",
+      2:"30-39",
+      3:"40-49",
+      4:"50-59",
+      5:"60-69",
+      6:"70+"
+    };
+    return map[c] || ("AgeGroup " + c);
+  }
+
+  function updateTrend(rows){
+    const years = [...new Set(rows.map(r=>r.SurveyYear).filter(y=>Number.isFinite(y)))].sort((a,b)=>a-b);
+    let xKey = "SurveyYear";
+    let xVals = years.map(y=>String(y));
+    let xLabel = "Year";
+
+    if(years.length <= 1){
+      xLabel = "Age Group";
+      xKey = "__age__";
+      const seen = new Set();
+      for(const r of rows){
+        if(r.Source === "GSS_QWL"){
+          r.__age__ = ageBucketGSS(r.Age);
+        }else{
+          r.__age__ = ageGroupFWLS(r.AgeGroup);
+        }
+        seen.add(r.__age__);
+      }
+      xVals = [...seen];
+      const order = ["18-29","30-39","40-49","50-59","60+","<30","30-39","40-49","50-59","60-69","70+","Unknown"];
+      xVals.sort((a,b)=> order.indexOf(a) - order.indexOf(b));
+    }
+
+    document.getElementById("trendMode").textContent = xLabel;
+
+    const teamSel = document.getElementById("team").value;
+    const teams = teamSel === "__all__" ? ["Q1","Q3","Q5"] : [teamSel];
+    const k = getFwaKey();
+
+    const traces = [];
+    for(const t of teams){
+      const y = [];
+      for(const xv of xVals){
+        const sub = rows.filter(r=>r[k] === t && String(r[xKey]) === xv);
+        y.push(weightedMean(sub,"EWS"));
+      }
+      traces.push({
+        name: t,
+        x: xVals,
+        y: y,
+        mode: "lines",
+        line: {width:3},
+      });
+    }
+
+    const layout = {
+      margin:{l:40,r:16,t:10,b:34},
+      paper_bgcolor: COLOR.bg,
+      plot_bgcolor: COLOR.bg,
+      xaxis:{tickfont:{size:10, color:COLOR.muted}, showgrid:false, zeroline:false},
+      yaxis:{range:[0,100], tickfont:{size:10, color:COLOR.muted}, gridcolor:COLOR.grid, zeroline:false},
+      legend:{orientation:"v", x:0.78, y:1.15, font:{size:10, color:COLOR.muted}}
+    };
+    const config = {displayModeBar:false, responsive:true};
+    Plotly.react("trendChart", traces, layout, config);
+  }
+
+  function updateHeatmap(rows){
+    const wrap = document.getElementById("heatmapWrap");
+    const cols = ["Q1","Q2","Q3","Q4","Q5"];
+    const rowsMeta = DOMAIN_KEYS.map(d=>({key:d.key, label:DOMAIN_FULL[d.key]}));
+    const k = getFwaKey();
+
+    let html = '<table class="heat">';
+    html += '<tr><th style="width:140px;">Benefit</th>';
+    for(const c of cols) html += `<th>${c}</th>`;
+    html += '</tr>';
+
+    for(const rm of rowsMeta){
+      html += `<tr><th>${rm.label}</th>`;
+      for(const c of cols){
+        const sub = rows.filter(r=>r[k] === c);
+        const v = weightedMean(sub, rm.key);
+        const bg = colorForScore(v);
+        html += `<td style="background:${bg};"><div class="celltext">${safeRound(v,0)}</div></td>`;
+      }
+      html += '</tr>';
+    }
+    html += '</table>';
+    wrap.innerHTML = html;
+  }
+
+  function quantileWeighted(values, weights, q){
+    const pairs = [];
+    for(let i=0;i<values.length;i++){
+      const v = values[i];
+      const w = weights[i];
+      if(Number.isFinite(v) && Number.isFinite(w) && w > 0) pairs.push([v,w]);
+    }
+    if(pairs.length === 0) return NaN;
+    pairs.sort((a,b)=>a[0]-b[0]);
+    const total = pairs.reduce((s,p)=>s+p[1],0);
+    const target = q * total;
+    let cum = 0;
+    for(const [v,w] of pairs){
+      cum += w;
+      if(cum >= target) return v;
+    }
+    return pairs[pairs.length-1][0];
+  }
+
+  function updateInsights(rows, baselineKey){
+    const wrap = document.getElementById("insightsWrap");
+    wrap.innerHTML = "";
+
+    const k = getFwaKey();
+
+    const byQ = {};
+    for(const q of ["Q1","Q2","Q3","Q4","Q5"]){
+      byQ[q] = rows.filter(r=>r[k] === q);
+    }
+    const ewsQ1 = weightedMean(byQ["Q1"], "EWS");
+    const ewsQ5 = weightedMean(byQ["Q5"], "EWS");
+    const gap = (Number.isFinite(ewsQ5) && Number.isFinite(ewsQ1)) ? (ewsQ5 - ewsQ1) : NaN;
+
+    const domainMeans = DOMAIN_KEYS.map(d=>({key:d.key, mean: weightedMean(rows,d.key)})).filter(x=>Number.isFinite(x.mean));
+    domainMeans.sort((a,b)=>a.mean-b.mean);
+    const lowest = domainMeans.length ? domainMeans[0] : null;
+
+    const lowShare = weightedShare(rows, r=>Number.isFinite(r.EWS) && r.EWS < 60);
+
+    const years = [...new Set(rows.map(r=>r.SurveyYear).filter(y=>Number.isFinite(y)))].sort((a,b)=>a-b);
+    let change = NaN;
+    if(years.length >= 2){
+      const first = rows.filter(r=>r.SurveyYear === years[0]);
+      const last = rows.filter(r=>r.SurveyYear === years[years.length-1]);
+      change = weightedMean(last,"EWS") - weightedMean(first,"EWS");
+    }else{
+      const p25 = quantileWeighted(rows.map(r=>r.EWS), rows.map(r=>r.Weight), 0.25);
+      const p75 = quantileWeighted(rows.map(r=>r.EWS), rows.map(r=>r.Weight), 0.75);
+      change = (Number.isFinite(p75) && Number.isFinite(p25)) ? (p75 - p25) : NaN;
+    }
+
+    const cards = [
+      {
+        icon:"!",
+        iconClass: Number.isFinite(gap) && gap < 0 ? "red" : "green",
+        title:"Flexibility gap (Q5 vs Q1)",
+        body: Number.isFinite(gap) ? `EWS is ${safeRound(gap,1)} points ${gap>=0 ? "higher" : "lower"} in Q5 compared with Q1 in the current view.` : "Not enough data across Q1 and Q5 under current filters."
+      },
+      {
+        icon:"i",
+        iconClass:"amber",
+        title:"Lowest domain driver",
+        body: lowest ? `${DOMAIN_FULL[lowest.key]} is the lowest domain at ${safeRound(lowest.mean,0)} out of 100. Use domain drilldown to target interventions.` : "No domain data available under current filters."
+      },
+      {
+        icon:"^",
+        iconClass:"purple",
+        title:"At risk share (EWS < 60)",
+        body: Number.isFinite(lowShare) ? `${pctFmt(lowShare)} of weighted respondents are below 60, suggesting concentrated well being risk in this segment.` : "Unable to compute risk share under current filters."
+      },
+      {
+        icon:"+",
+        iconClass:"green",
+        title: years.length >= 2 ? "Change over time" : "Well being variability",
+        body: Number.isFinite(change)
+          ? (years.length >= 2
+              ? `From ${years[0]} to ${years[years.length-1]}, EWS changes by ${safeRound(change,1)} points within the current filters.`
+              : `Interquartile range of EWS is ${safeRound(change,1)} points within the current filters.`)
+          : "Unable to compute trend or variability under current filters."
+      }
+    ];
+
+    const rotated = cards.slice(INSIGHT_ROT).concat(cards.slice(0, INSIGHT_ROT));
+
+    for(const c of rotated){
+      const div = document.createElement("div");
+      div.className = "insight";
+      const ic = document.createElement("div");
+      ic.className = "ic " + c.iconClass;
+      ic.textContent = c.icon;
+      const body = document.createElement("div");
+      const h4 = document.createElement("h4");
+      h4.textContent = c.title;
+      const p = document.createElement("p");
+      p.textContent = c.body;
+      body.appendChild(h4);
+      body.appendChild(p);
+      div.appendChild(ic);
+      div.appendChild(body);
+      wrap.appendChild(div);
+    }
+  }
+
+  function updateAll(){
+    const rows = applyFilters();
+    updateRowCount(rows);
+
+    const src = document.getElementById("region").value;
+    const baselineKey = (src === "__all__") ? "__all__" : src;
+
+    drawGauge(weightedMean(rows, "EWS"));
+    updateDomainTiles(rows, baselineKey);
+    updateBars(rows);
+    updateTrend(rows);
+    updateHeatmap(rows);
+    updateInsights(rows, baselineKey);
+  }
+
+  function exportReport(){
+    const rows = applyFilters();
+    const src = document.getElementById("region").value;
+
+    const summary = {
+      timestamp: new Date().toISOString(),
+      source: src,
+      employee: document.getElementById("employee").value,
+      team: document.getElementById("team").value,
+      period: document.getElementById("period").value,
+      rows: rows.length,
+      mean_ews: safeRound(weightedMean(rows,"EWS"),2),
+      mean_fwa: safeRound(weightedMean(rows,"FWA_Index"),2),
+      low_ews_share: pctFmt(weightedShare(rows, r=>Number.isFinite(r.EWS) && r.EWS < 60))
+    };
+
+    for(const d of DOMAIN_KEYS){
+      summary["mean_" + d.key] = safeRound(weightedMean(rows, d.key), 2);
+    }
+
+    const headers = Object.keys(summary);
+    const line1 = headers.join(",");
+    const line2 = headers.map(h=>String(summary[h]).replaceAll(","," ")).join(",");
+    const csv = line1 + "\n" + line2 + "\n";
+
+    const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "employee_wellness_report.csv";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function bindEvents(){
+    if(EVENTS_BOUND) return;
+    EVENTS_BOUND = true;
+
+    document.getElementById("applyBtn").addEventListener("click", () => updateAll());
+
+    document.getElementById("region").addEventListener("change", (e) => {
+      ensureEmployeeOptions(e.target.value);
+    });
+
+    document.getElementById("exportBtn").addEventListener("click", exportReport);
+
+    document.getElementById("moreBtn").addEventListener("click", () => {
+      INSIGHT_ROT = (INSIGHT_ROT + 1) % 4;
+      updateAll();
+    });
+
+    document.getElementById("viewAll").addEventListener("click", (e) => {
+      e.preventDefault();
+      INSIGHT_ROT = 0;
+      updateAll();
+    });
+
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if(file) parseFile(file);
+    });
+
+    const loadDataBtn = document.getElementById("loadDataBtn");
+    if(loadDataBtn){
+      loadDataBtn.addEventListener("click", async () => {
+        showOverlay("Loading data", "Starting", "Attempting to load fact_wellbeing_union.csv");
+        setProgress(4);
+        
+        const fetchResult = await tryFetch([
+          "fact_wellbeing_union.csv",
+          "data/clean/fact_wellbeing_union.csv"
+        ]);
+
+        if(fetchResult.ok){
+          setProgress(18);
+          parseText(fetchResult.text);
+          return;
+        }
+
+        modalTitle.textContent = "Data file not found";
+        modalStatus.textContent = "Action needed";
+        modalText.textContent = "Unable to auto-load. Please select the CSV file manually.";
+        setProgress(0);
+        document.getElementById("fileBtn").style.display = "flex";
+        loadDataBtn.style.display = "none";
+      });
+    }
+  }
+
+  function normalizeRow(r){
+    return {
+      Source: r.Source,
+      RespondentID: r.RespondentID,
+      SurveyYear: toNum(r.SurveyYear),
+      Age: toNum(r.Age),
+      AgeGroup: toNum(r.AgeGroup),
+      Weight: toNum(r.Weight),
+      FWA_Index: toNum(r.FWA_Index),
+      D1_WorkEvalExperience: toNum(r.D1_WorkEvalExperience),
+      D2_PoliciesCulture: toNum(r.D2_PoliciesCulture),
+      D3_SafetyClimate: toNum(r.D3_SafetyClimate),
+      D4_HealthStatus: toNum(r.D4_HealthStatus),
+      D5_HomeCommunity: toNum(r.D5_HomeCommunity),
+      EWS: toNum(r.EWS),
+      FWA_Q_ALL: "NA",
+      FWA_Q_SRC: "NA"
+    };
+  }
+
+  function assignWeightedQuintiles(rows, valueKey, outKey){
+    // assign Q1..Q5 by cumulative survey weight rank, which avoids empty groups when there are many ties
+    const valid = [];
+    for(let i=0;i<rows.length;i++){
+      const v = rows[i][valueKey];
+      const w = rows[i].Weight;
+      if(Number.isFinite(v) && Number.isFinite(w) && w > 0){
+        valid.push({i:i, v:v, w:w});
+      }else{
+        rows[i][outKey] = "NA";
+      }
+    }
+    if(valid.length === 0) return;
+
+    valid.sort((a,b)=>a.v-b.v);
+    const total = valid.reduce((s,p)=>s+p.w,0);
+    let cum = 0;
+    for(const p of valid){
+      cum += p.w;
+      const frac = cum / total;
+      let q = Math.ceil(frac * 5);
+      if(q < 1) q = 1;
+      if(q > 5) q = 5;
+      rows[p.i][outKey] = "Q" + q;
+    }
+  }
+
+  function computeQuintiles(){
+    // all sources
+    assignWeightedQuintiles(RAW, "FWA_Index", "FWA_Q_ALL");
+    // within each source
+    const sources = [...new Set(RAW.map(r=>r.Source))];
+    for(const src of sources){
+      const subsetIdx = [];
+      for(let i=0;i<RAW.length;i++){
+        if(RAW[i].Source === src) subsetIdx.push(i);
+      }
+      const subset = subsetIdx.map(i=>RAW[i]);
+      assignWeightedQuintiles(subset, "FWA_Index", "FWA_Q_SRC");
+      // values are assigned by reference to the same objects, no copy needed
+    }
+  }
+
+  function computeBaseline(){
+    BASELINE = {};
+    const sources = ["__all__", ...[...new Set(RAW.map(r=>r.Source))]];
+    for(const src of sources){
+      const rows = src === "__all__" ? RAW : RAW.filter(r=>r.Source === src);
+      BASELINE[src] = {
+        EWS: weightedMean(rows,"EWS"),
+        domains: Object.fromEntries(DOMAIN_KEYS.map(d=>[d.key, weightedMean(rows,d.key)])),
+        n: rows.length
+      };
+    }
+  }
+
+  function finalizeData(rows){
+    RAW = rows.map(normalizeRow);
+    computeQuintiles();
+    computeBaseline();
+    ensureYearOptions();
+    ensureEmployeeOptions("__all__");
+    bindEvents();
+    hideOverlay();
+    updateAll();
+  }
+
+  function parseText(text){
+    showOverlay("Loading data", "Parsing", "Parsing CSV text");
+    setProgress(20);
+    Papa.parse(text, {
+      header:true,
+      skipEmptyLines:true,
+      dynamicTyping:false,
+      worker:(location.protocol !== "file:"),
+      complete: (res) => {
+        setProgress(90);
+        modalStatus.textContent = "Finalizing";
+        finalizeData(res.data);
+        setProgress(100);
+      },
+      error: (err) => {
+        modalTitle.textContent = "Load failed";
+        modalStatus.textContent = "Error";
+        modalText.textContent = "Unable to parse CSV. Please verify the file is fact_wellbeing_union.csv.";
+        console.error(err);
+      }
+    });
+  }
+
+  function parseFile(file){
+    showOverlay("Loading data", "Reading file", "Reading selected CSV file");
+    setProgress(10);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setProgress(18);
+      parseText(reader.result);
+    };
+    reader.onerror = () => {
+      modalTitle.textContent = "Load failed";
+      modalStatus.textContent = "Error";
+      modalText.textContent = "Unable to read the selected file.";
+    };
+    reader.readAsText(file);
+  }
+
+  async function tryFetch(paths){
+    for(const p of paths){
+      try{
+        modalStatus.textContent = "Fetching";
+        modalText.textContent = "Attempting to load " + p;
+        const resp = await fetch(p, {cache:"no-cache"});
+        if(resp.ok){
+          const text = await resp.text();
+          return {ok:true, text:text, path:p};
+        }
+      }catch(e){
+        // ignore and try next
+      }
+    }
+    return {ok:false};
+  }
+
+  async function init(){
+    bindEvents();
+    showOverlay("Load Data", "Ready", "Click the button below to load the wellness dashboard data.");
+    modalTitle.textContent = "Load Data";
+    modalStatus.textContent = "Ready";
+    modalText.textContent = "Click the button below to load fact_wellbeing_union.csv and view the wellness dashboard.";
+    setProgress(0);
+  }
+
+  init();
+
+  // Sidebar navigation and settings
+  const NAV_BTNS = Array.from(document.querySelectorAll(".navbtn"));
+
+  function setActiveNav(btn){
+    NAV_BTNS.forEach(b => b.classList.remove("active"));
+    if(btn){ btn.classList.add("active"); }
+  }
+
+  function scrollToId(id){
+    const el = document.getElementById(id);
+    if(!el){ return; }
+    el.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  NAV_BTNS.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const action = btn.dataset.action;
+      if(action === "scroll"){
+        scrollToId(btn.dataset.target);
+        setActiveNav(btn);
+        if(btn.dataset.target === "sec-filters"){
+          const first = document.getElementById("employee");
+          if(first){ first.focus(); }
+        }
+        return;
+      }
+      if(action === "export"){
+        exportReport();
+        return;
+      }
+      if(action === "settings"){
+        openSettings();
+        return;
+      }
+    });
+  });
+
+  const settingsOverlay = document.getElementById("settingsOverlay");
+  const settingsName = document.getElementById("settingsName");
+  const styleIconsBtn = document.getElementById("styleIcons");
+  const styleInitialsBtn = document.getElementById("styleInitials");
+  const saveSettingsBtn = document.getElementById("saveSettings");
+  const closeSettingsBtn = document.getElementById("closeSettings");
+
+  function initialsFromName(name){
+    const parts = (name || "").trim().split(/\s+/).filter(Boolean);
+    if(parts.length === 0){ return "DU"; }
+    if(parts.length === 1){
+      return parts[0].slice(0, 2).toUpperCase();
+    }
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+
+  function applyUserName(name){
+    const nm = (name || "Demo User").trim() || "Demo User";
+    const el = document.getElementById("userName");
+    if(el){ el.textContent = nm; }
+    const av = document.querySelector(".topbar .user .avatar");
+    if(av){ av.textContent = initialsFromName(nm); }
+  }
+
+  function applySidebarStyle(style){
+    if(style === "initials"){
+      document.body.classList.add("sidebar-initials");
+      if(styleInitialsBtn){ styleInitialsBtn.classList.add("active"); }
+      if(styleIconsBtn){ styleIconsBtn.classList.remove("active"); }
+      return;
+    }
+    document.body.classList.remove("sidebar-initials");
+    if(styleIconsBtn){ styleIconsBtn.classList.add("active"); }
+    if(styleInitialsBtn){ styleInitialsBtn.classList.remove("active"); }
+  }
+
+  function openSettings(){
+    if(!settingsOverlay){ return; }
+    const storedName = localStorage.getItem("ews_user_name") || "Demo User";
+    const storedStyle = localStorage.getItem("ews_sidebar_style") || "icons";
+    if(settingsName){ settingsName.value = storedName; }
+    applySidebarStyle(storedStyle);
+    settingsOverlay.style.display = "flex";
+    if(settingsName){ settingsName.focus(); }
+  }
+
+  function closeSettings(){
+    if(!settingsOverlay){ return; }
+    settingsOverlay.style.display = "none";
+  }
+
+  if(styleIconsBtn){ styleIconsBtn.addEventListener("click", () => applySidebarStyle("icons")); }
+  if(styleInitialsBtn){ styleInitialsBtn.addEventListener("click", () => applySidebarStyle("initials")); }
+
+  if(saveSettingsBtn){
+    saveSettingsBtn.addEventListener("click", () => {
+      const nm = (settingsName && settingsName.value ? settingsName.value.trim() : "") || "Demo User";
+      const style = document.body.classList.contains("sidebar-initials") ? "initials" : "icons";
+      localStorage.setItem("ews_user_name", nm);
+      localStorage.setItem("ews_sidebar_style", style);
+      applyUserName(nm);
+      closeSettings();
+    });
+  }
+
+  if(closeSettingsBtn){ closeSettingsBtn.addEventListener("click", closeSettings); }
+
+  const userNameEl = document.getElementById("userName");
+  if(userNameEl){ userNameEl.addEventListener("click", openSettings); }
+
+  // Apply stored settings on load
+  applyUserName(localStorage.getItem("ews_user_name") || "Demo User");
+  applySidebarStyle(localStorage.getItem("ews_sidebar_style") || "icons");
+</script>
+</body>
+</html>

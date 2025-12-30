@@ -46,6 +46,8 @@ export const projects: Project[] = [
     technologies: ["Data Engineering", "Snowflake", "BI"],
     liveUrl: "#",
     imageUrl: airbnbAnalyticsWarehouse,
+    embedInModal: true,
+    websiteUrl: "https://trusting-overlays-194271.framer.app/",
   },
   {
     id: "2",
@@ -54,6 +56,8 @@ export const projects: Project[] = [
     technologies: ["Data Science", "Classification", "Analytics"],
     liveUrl: "#",
     imageUrl: airlineDelayAnalytics,
+    embedInModal: true,
+    websiteUrl: "https://remarkable-cues-594356.framer.app/",
   },
   {
     id: "3",
@@ -62,6 +66,8 @@ export const projects: Project[] = [
     technologies: ["Data Science", "Classification", "Analytics"],
     liveUrl: "#",
     imageUrl: microsoftWellBQ,
+    websiteUrl: "/portfolio/wellness/employee-wellness-dashboard.html",
+    embedInModal: true,
   },
   {
     id: "4",
@@ -70,6 +76,8 @@ export const projects: Project[] = [
     technologies: ["Generative AI", "Healthcare", "NLP"],
     liveUrl: "#",
     imageUrl: medScribeAI,
+    embedInModal: true,
+    websiteUrl: "https://humorous-career-125783.framer.app/",
   },
   {
     id: "5",
@@ -78,6 +86,8 @@ export const projects: Project[] = [
     technologies: ["Machine Learning", "Time Series", "Forecasting"],
     liveUrl: "#",
     imageUrl: flightFarePrediction,
+    embedInModal: true,
+    websiteUrl: "https://expanded-click-219757.framer.app/",
   },
 ];
 
@@ -373,7 +383,7 @@ export const researchProjects: ResearchProject[] = [
     year: "2024",
     featured: true,
     imageUrl: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=600&fit=crop&q=80&grayscale",
-    researchPaperUrl: "#design-showcase",
+    researchPaperUrl: "https://docs.google.com/document/d/1CMw4o3IfY1jnMLFF6I-IsFf6pzfBWY4w/preview",
   },
   {
     id: "2",
@@ -422,7 +432,8 @@ export const researchProjects: ResearchProject[] = [
     year: "2025",
     featured: false,
     imageUrl: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=800&h=600&fit=crop&q=80&grayscale",
-    websiteUrl: "https://final-safe-45824919.figma.site",
+    websiteUrl: "https://final-safe-45824919.figma.site/",
+    embedInModal: true,
   },
 ];
 
@@ -484,6 +495,7 @@ export const blogPosts: BlogPost[] = [
     description: "The signal is loud: clinicians spend a huge amount of time inside EHR interfaces. In our framing, the real issue isn't that doctors can't document, it's that documentation steals time from care and accelerates burnout. MedScribe is transforming clinical workflows through intelligent, AI documentation.",
     category: "Healthcare AI",
     imageUrl: beyondMinimalismWebDesign,
+    url: "https://medium.com/@surbhimeena002/a-privacy-first-medical-scribe-that-gives-clinicians-their-evenings-back-19e1297031d9?postPublishedType=initial",
   },
   {
     id: "5",

@@ -1,30 +1,12 @@
-import { useState } from 'react';
 import { researchProjects, skillCategories, personalInfo, researchContent } from '../data';
 import { SectionHeader, CTASection, Card } from './ui';
+import EmbeddedModal from './EmbeddedModal';
+import { useEmbeddedModal } from '../hooks';
+import { handleLinkClick, hasClickableAction } from '../utils';
 import './Research.css';
 
 const Research = () => {
-  const [selectedProject, setSelectedProject] = useState<string | null>(null);
-
-  const openModal = (projectId: string) => {
-    setSelectedProject(projectId);
-  };
-
-  const closeModal = () => {
-    setSelectedProject(null);
-  };
-
-  const selectedProjectData = selectedProject 
-    ? researchProjects.find(p => p.id === selectedProject)
-    : null;
-
-  const handleCardClick = (project: typeof researchProjects[0]) => {
-    if (project.websiteUrl) {
-      window.open(project.websiteUrl, '_blank', 'noopener,noreferrer');
-    } else if (project.researchPaperUrl) {
-      window.open(project.researchPaperUrl, '_blank', 'noopener,noreferrer');
-    }
-  };
+  const { embeddedUrl, embeddedTitle, isOpen, openModal, closeModal } = useEmbeddedModal();
 
   return (
     <section id="research" className="research">
@@ -36,12 +18,12 @@ const Research = () => {
 
         <div className="research-grid">
           {researchProjects.map((project) => {
-            const hasLink = project.websiteUrl || project.researchPaperUrl;
+            const isClickable = hasClickableAction(project);
             return (
               <div
                 key={project.id}
-                className={`research-card-wrapper ${hasLink ? 'research-card-clickable' : ''}`}
-                onClick={hasLink ? () => handleCardClick(project) : undefined}
+                className={`research-card-wrapper ${isClickable ? 'research-card-clickable' : ''}`}
+                onClick={isClickable ? () => handleLinkClick({ item: project, onOpenModal: openModal }) : undefined}
               >
                 <Card className="research-card" border>
                   <div className="research-image">
@@ -59,15 +41,6 @@ const Research = () => {
                         <p className="research-description">
                           {project.description}
                         </p>
-                        <button 
-                          className="research-read-more-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            openModal(project.id);
-                          }}
-                        >
-                          Read more
-                        </button>
                       </div>
                     </div>
                     <Card className="research-year-card" border>
@@ -109,36 +82,13 @@ const Research = () => {
         />
       </div>
 
-      {/* Modal for full description */}
-      {selectedProjectData && (
-        <div className="research-modal-overlay" onClick={closeModal}>
-          <div className="research-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="research-modal-close" onClick={closeModal}>×</button>
-            <h2 className="research-modal-title">{selectedProjectData.title}</h2>
-            <p className="research-modal-category">{selectedProjectData.category}</p>
-            <p className="research-modal-description">{selectedProjectData.description}</p>
-            {selectedProjectData.websiteUrl ? (
-              <a 
-                href={selectedProjectData.websiteUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="research-modal-link"
-              >
-                Visit Website →
-              </a>
-            ) : selectedProjectData.researchPaperUrl && (
-              <a 
-                href={selectedProjectData.researchPaperUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="research-modal-link"
-              >
-                View Research Paper →
-              </a>
-            )}
-          </div>
-        </div>
-      )}
+      {/* Embedded Modal */}
+      <EmbeddedModal
+        isOpen={isOpen}
+        onClose={closeModal}
+        url={embeddedUrl || ''}
+        title={embeddedTitle}
+      />
     </section>
   );
 };

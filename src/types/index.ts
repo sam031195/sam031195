@@ -1,101 +1,104 @@
 export interface Project {
-  id: string;
-  title: string;
-  description: string;
-  technologies: string[];
-  githubUrl?: string;
-  liveUrl?: string;
-  imageUrl?: string;
+  readonly id: string;
+  readonly title: string;
+  readonly description: string;
+  readonly technologies: readonly string[];
+  readonly githubUrl?: string;
+  readonly liveUrl?: string;
+  readonly imageUrl?: string;
+  readonly embedInModal?: boolean;
+  readonly websiteUrl?: string;
 }
 
 export interface Skill {
-  name: string;
-  level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
+  readonly name: string;
+  readonly level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
 }
 
 export interface Experience {
-  id: string;
-  title: string;
-  company: string;
-  duration: string;
-  location?: string;
-  description: string[];
-  technologies: string[];
+  readonly id: string;
+  readonly title: string;
+  readonly company: string;
+  readonly duration: string;
+  readonly location?: string;
+  readonly description: readonly string[];
+  readonly technologies: readonly string[];
 }
 
 export interface Education {
-  degree: string;
-  institution: string;
-  duration: string;
-  description?: string;
+  readonly degree: string;
+  readonly institution: string;
+  readonly duration: string;
+  readonly description?: string;
 }
 
 export interface PersonalInfo {
-  name: string;
-  title: string;
-  email: string;
-  phone?: string;
-  location: string;
-  bio: string;
-  aboutMe?: string;
-  summary?: string;
-  github?: string;
-  linkedin?: string;
+  readonly name: string;
+  readonly title: string;
+  readonly email: string;
+  readonly phone?: string;
+  readonly location: string;
+  readonly bio: string;
+  readonly aboutMe?: string;
+  readonly summary?: string;
+  readonly github?: string;
+  readonly linkedin?: string;
   twitter?: string;
   website?: string;
   profileImage?: string;
 }
 
 export interface Award {
-  id: string;
-  title: string;
-  category: string;
-  icon: string; // Icon name or emoji
+  readonly id: string;
+  readonly title: string;
+  readonly category: string;
+  readonly icon: string;
 }
 
 export interface Membership {
-  id: string;
-  company: string;
-  role: string;
-  duration: string;
-  logoUrl: string; // Logo image URL
+  readonly id: string;
+  readonly company: string;
+  readonly role: string;
+  readonly duration: string;
+  readonly logoUrl: string;
 }
 
 export interface TechStackItem {
-  id: string;
-  name: string;
-  description: string;
-  logoUrl: string; // Logo image URL
-  category: 'Programming' | 'Machine Learning & AI' | 'Data & Systems' | 'Design & Frontend';
+  readonly id: string;
+  readonly name: string;
+  readonly description: string;
+  readonly logoUrl: string;
+  readonly category: 'Programming' | 'Machine Learning & AI' | 'Data & Systems' | 'Design & Frontend';
 }
 
 export interface ResearchProject {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  year: string;
-  imageUrl?: string;
-  featured?: boolean;
-  researchPaperUrl?: string;
-  websiteUrl?: string;
+  readonly id: string;
+  readonly title: string;
+  readonly description: string;
+  readonly category: string;
+  readonly year: string;
+  readonly imageUrl?: string;
+  readonly featured?: boolean;
+  readonly researchPaperUrl?: string;
+  readonly websiteUrl?: string;
+  readonly embedInModal?: boolean;
 }
 
 export interface SkillCategory {
-  title: string;
-  skills: string[];
+  readonly title: string;
+  readonly skills: readonly string[];
 }
 
 export interface BlogPost {
-  id: string;
-  title: string;
-  date: string;
-  author: string;
-  description: string;
-  category: string;
-  imageUrl?: string;
-  featured?: boolean;
-  url?: string;
+  readonly id: string;
+  readonly title: string;
+  readonly date: string;
+  readonly author: string;
+  readonly description: string;
+  readonly category: string;
+  readonly imageUrl?: string;
+  readonly featured?: boolean;
+  readonly url?: string;
 }
 
 export interface Content {

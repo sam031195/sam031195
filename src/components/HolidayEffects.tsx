@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { HOLIDAY, ANIMATION } from '../constants';
 import './HolidayEffects.css';
 
 type HolidayType = 'snow' | 'diwali' | null;
@@ -26,24 +27,24 @@ const FESTIVALS: FestivalConfig[] = [
     id: 'diwali',
     name: 'Diwali',
     emoji: '✨',
-    particleCount: 50,
-    headerParticleCount: 15,
+    particleCount: HOLIDAY.PARTICLE_COUNT,
+    headerParticleCount: HOLIDAY.HEADER_PARTICLE_COUNT,
     className: 'diwali-sparkle',
     containerClass: 'diwali-container',
-    baseOpacity: 0.2,
-    opacityRange: 0.4,
+    baseOpacity: HOLIDAY.BASE_OPACITY,
+    opacityRange: HOLIDAY.OPACITY_RANGE,
     dateCheck: (month, date) => month === 10 || (month === 11 && date <= 15),
   },
   {
     id: 'snow',
     name: 'Snow',
     emoji: '❄',
-    particleCount: 50,
-    headerParticleCount: 15,
+    particleCount: HOLIDAY.PARTICLE_COUNT,
+    headerParticleCount: HOLIDAY.HEADER_PARTICLE_COUNT,
     className: 'snowflake',
     containerClass: 'snow-container',
-    baseOpacity: 0.2,
-    opacityRange: 0.4,
+    baseOpacity: HOLIDAY.BASE_OPACITY,
+    opacityRange: HOLIDAY.OPACITY_RANGE,
     dateCheck: (month, date) => 
       (month === 12 && date >= 15) || (month === 1 && date <= 5) ||
       (month === 12 && date >= 28) || (month === 1 && date <= 7),
@@ -102,7 +103,7 @@ const HolidayEffects = ({ enabled = true }: HolidayEffectsProps) => {
   useEffect(() => {
     if (!enabled) return;
 
-    const handleScroll = () => setIsAtTop(window.scrollY < 120);
+    const handleScroll = () => setIsAtTop(window.scrollY < ANIMATION.SCROLL_THRESHOLD);
     handleScroll();
     
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -185,8 +186,8 @@ const FestivalEffect = ({ config }: { config: FestivalConfig }) => (
         className={config.className}
         style={{
           left: `${Math.random() * 100}%`,
-          animationDelay: `${Math.random() * 3}s`,
-          animationDuration: `${3 + Math.random() * 4}s`,
+          animationDelay: `${Math.random() * ANIMATION.PARTICLE_MAX_DELAY}s`,
+          animationDuration: `${ANIMATION.PARTICLE_MIN_DURATION + Math.random() * (ANIMATION.PARTICLE_MAX_DURATION - ANIMATION.PARTICLE_MIN_DURATION)}s`,
           opacity: config.baseOpacity + Math.random() * config.opacityRange,
         }}
       >
@@ -216,9 +217,9 @@ export const HeaderFestival = () => {
           className={particleClass}
           style={{
             left: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 3}s`,
-            animationDuration: `${3 + Math.random() * 4}s`,
-            opacity: 0.4 + Math.random() * 0.3,
+            animationDelay: `${Math.random() * ANIMATION.PARTICLE_MAX_DELAY}s`,
+            animationDuration: `${ANIMATION.PARTICLE_MIN_DURATION + Math.random() * (ANIMATION.PARTICLE_MAX_DURATION - ANIMATION.PARTICLE_MIN_DURATION)}s`,
+            opacity: HOLIDAY.HEADER_OPACITY_BASE + Math.random() * HOLIDAY.HEADER_OPACITY_RANGE,
           }}
         >
           {festival.emoji}
@@ -226,17 +227,6 @@ export const HeaderFestival = () => {
       ))}
     </div>
   );
-};
-
-// Legacy exports for backward compatibility
-export const HeaderSnow = () => {
-  const holiday = useCurrentHoliday();
-  return holiday === 'snow' ? <HeaderFestival /> : null;
-};
-
-export const HeaderDiwali = () => {
-  const holiday = useCurrentHoliday();
-  return holiday === 'diwali' ? <HeaderFestival /> : null;
 };
 
 export default HolidayEffects;

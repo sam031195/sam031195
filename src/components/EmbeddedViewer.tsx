@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
+import { personalInfo } from '../data';
 import './EmbeddedViewer.css';
 
 interface EmbeddedViewerProps {
   url: string;
   title?: string;
+  onClose?: () => void;
 }
 
-const EmbeddedViewer = ({ url, title = "Content" }: EmbeddedViewerProps) => {
+const EmbeddedViewer = ({ url, title = "Content", onClose }: EmbeddedViewerProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
@@ -45,10 +47,33 @@ const EmbeddedViewer = ({ url, title = "Content" }: EmbeddedViewerProps) => {
         className="embedded-viewer-iframe"
         onLoad={handleLoad}
         onError={handleError}
-        loading="lazy"
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-        referrerPolicy="no-referrer"
+        loading="eager"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+        allow="fullscreen"
       />
+      
+      {/* Mini header overlay to hide "Made in Framer" badge and provide close button */}
+      {onClose && (
+        <div className="embedded-viewer-overlay">
+          <div className="embedded-viewer-mini-header">
+            <div className="embedded-viewer-mini-left">
+              <img 
+                src={personalInfo.profileImage} 
+                alt={personalInfo.name}
+                className="embedded-viewer-mini-avatar"
+              />
+              <span className="embedded-viewer-mini-name">{personalInfo.name}</span>
+            </div>
+            <button 
+              className="embedded-viewer-mini-close" 
+              onClick={onClose}
+              aria-label="Close"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BsSun, BsMoon } from 'react-icons/bs';
+import { LAYOUT } from '../constants';
 import './Header.css';
 import { personalInfo, headerContent } from '../data';
 import { HeaderFestival } from './HolidayEffects';
@@ -30,7 +31,7 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
       try {
         const currentScrollY = window.scrollY;
         const sections = headerContent.navItems.map(item => document.getElementById(item.id));
-        const scrollPosition = currentScrollY + 100;
+        const scrollPosition = currentScrollY + LAYOUT.SCROLL_OFFSET;
 
         for (let i = sections.length - 1; i >= 0; i--) {
           const section = sections[i];

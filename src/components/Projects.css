@@ -6,7 +6,7 @@
    =========================================== */
 
 .projects {
-  padding: var(--spacing-2xl) var(--spacing-xl) var(--spacing-4xl);
+  padding: var(--spacing-2xl) var(--spacing-xl) var(--spacing-2xl);
   max-width: 1200px;
   margin: 0 auto;
   background: var(--bg-primary);
@@ -39,6 +39,19 @@
 .project-card {
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s ease;
+}
+
+.project-card-clickable {
+  cursor: pointer;
+}
+
+.project-card-clickable:hover {
+  transform: translateY(-4px);
+}
+
+.project-card-clickable:active {
+  transform: translateY(-2px);
 }
 
 .project-image {
@@ -199,17 +212,11 @@
 /* Newsletter Section */
 .newsletter-section {
   margin-top: var(--spacing-4xl);
-  padding-top: var(--spacing-4xl);
+  padding-top: var(--spacing-3xl);
+  padding-bottom: var(--spacing-3xl);
   text-align: center;
   border-top: 1px solid var(--border-light);
-}
-
-.newsletter-label {
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-  text-transform: capitalize;
-  margin-bottom: var(--spacing-lg);
-  display: block;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .newsletter-title {
