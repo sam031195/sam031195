@@ -627,7 +627,7 @@ export const lifestyleContent = {
     title: "Beyond Screen",
     description: "Movement fuels my work. Winter sports, tennis, and hiking are my favorite ways to clear my head and find fresh perspective.",
     items: {
-      reading: "Currently Reading: Laws of UX by Jon Yablonski",
+      reading: "I love exploring new places on foot.",
       location: "Currently Based in Seattle, WA",
       football: "Love playing Tennis on weekends",
     },
