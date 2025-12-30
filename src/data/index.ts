@@ -648,6 +648,7 @@ export const headerContent = {
     { id: 'research', label: 'Research' },
     { id: 'blog', label: 'Blog' },
     { id: 'lifestyle', label: 'Lifestyle' },
+    { id: 'design-showcase', label: 'Design' },
   ],
   contactButton: "Contact",
 };

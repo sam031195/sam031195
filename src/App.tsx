@@ -6,6 +6,7 @@ import Projects from './components/Projects';
 import Research from './components/Research';
 import Blog from './components/Blog';
 import Lifestyle from './components/Lifestyle';
+import DesignShowcase from './components/DesignShowcase';
 import HolidayEffects from './components/HolidayEffects';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Research />
         <Blog />
         <Lifestyle />
+        <DesignShowcase />
       </main>
     </div>
   );
