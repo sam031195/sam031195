@@ -68,7 +68,7 @@ export const projects: Project[] = [
     title: "MedScribe AI",
     description: "Built a privacy-first AI medical scribe that transcribes and summarizes doctor–patient conversations, generates structured EHR notes, and suggests potential diagnoses using medical-context-aware LLMs.",
     technologies: ["Generative AI", "Healthcare", "NLP"],
-    liveUrl: "#design-showcase",
+    liveUrl: "#",
     imageUrl: medScribeAI,
   },
   {
@@ -373,7 +373,7 @@ export const researchProjects: ResearchProject[] = [
     year: "2024",
     featured: true,
     imageUrl: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=600&fit=crop&q=80&grayscale",
-    researchPaperUrl: "https://docs.google.com/document/d/1CMw4o3IfY1jnMLFF6I-IsFf6pzfBWY4w/preview",
+    researchPaperUrl: "#design-showcase",
   },
   {
     id: "2",
@@ -648,7 +648,6 @@ export const headerContent = {
     { id: 'research', label: 'Research' },
     { id: 'blog', label: 'Blog' },
     { id: 'lifestyle', label: 'Lifestyle' },
-    { id: 'design-showcase', label: 'Design' },
   ],
   contactButton: "Contact",
 };
