@@ -442,37 +442,49 @@ export const skillCategories: SkillCategory[] = [
   {
     title: "Applied ML & NLP",
     skills: [
-      "Generative AI: RAG, Prompting, LLMs",
-      "Reliability: Calibration, Uncertainty, Deferral",
-      "Graph ML: GNNs, Relational Data",
-      "Evaluation: ECE, NLL, Error Analysis"
+      "RAG Pipelines",
+      "Prompt Engineering",
+      "LLMs",
+      "Model Calibration",
+      "Uncertainty Quantification",
+      "Graph Neural Networks",
+      "Error Analysis"
     ],
   },
   {
     title: "MLOps & Production",
     skills: [
-      "Frameworks: PyTorch, TensorFlow",
-      "Deployment: APIs, Batch Pipelines, Docker",
-      "Retrieval: FAISS, BM25, Reranking",
-      "Tooling: Git, Experiment Tracking"
+      "PyTorch",
+      "TensorFlow",
+      "Docker",
+      "API Development",
+      "Batch Pipelines",
+      "FAISS",
+      "Experiment Tracking"
     ],
   },
   {
     title: "Data Engineering",
     skills: [
-      "Architecture: Star Schema, Data Warehousing",
-      "Pipelines: ETL, Data Validation",
-      "Analytics: pandas, NumPy, SQL",
-      "Modeling: Feature Engineering"
+      "Data Warehousing",
+      "ETL Pipelines",
+      "SQL",
+      "pandas",
+      "NumPy",
+      "Feature Engineering",
+      "Data Validation"
     ],
   },
   {
     title: "Product Leadership",
     skills: [
-      "Strategy: Roadmapping, Product Strategy",
-      "Management: Stakeholder Management, PRDs",
-      "Execution: Agile, Scrum, Jira",
-      "Design: UX Research, Figma"
+      "Product Roadmapping",
+      "Stakeholder Management",
+      "PRDs",
+      "Agile",
+      "Scrum",
+      "UX Research",
+      "Figma"
     ],
   },
 ];
